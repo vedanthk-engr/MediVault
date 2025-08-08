@@ -103,11 +103,15 @@ export const getDashboardStats = query({
       recentMovements: await Promise.all(
         recentMovements.map(async (movement) => {
           const supply = await ctx.db.get(movement.supplyId);
-          const user = await ctx.db.get(movement.performedBy);
+          const userName = movement.performedBy === "system" 
+            ? "System" 
+            : (await ctx.db.get(movement.performedBy))?.name || 
+              (await ctx.db.get(movement.performedBy))?.email || 
+              'Unknown';
           return {
             ...movement,
             supplyName: supply?.name || 'Unknown',
-            userName: user?.name || user?.email || 'Unknown',
+            userName,
           };
         })
       ),
@@ -180,7 +184,7 @@ export const getExpiringItems = query({
         .filter(batch => batch.quantity > 0 && batch.expirationDate)
         .map(async (batch) => {
           const supply = await ctx.db.get(batch.supplyId);
-          const category = supply ? await ctx.db.get(supply.categoryId) : null;
+          const category = supply?.categoryId ? await ctx.db.get(supply.categoryId) : null;
           
           const daysUntilExpiration = batch.expirationDate 
             ? Math.ceil((batch.expirationDate - Date.now()) / (24 * 60 * 60 * 1000))

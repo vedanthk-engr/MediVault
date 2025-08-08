@@ -48,13 +48,13 @@ export const initializeUserRole = mutation({
         "create_categories", "update_categories", "delete_categories",
         "create_suppliers", "update_suppliers", "delete_suppliers",
         "manage_users", "view_analytics", "manage_orders",
-        "view_audit_logs", "system_settings"
+        "view_audit_logs", "system_settings", "stock_movements"
       ],
       manager: [
         "create_supplies", "update_supplies",
         "create_categories", "update_categories",
         "create_suppliers", "update_suppliers",
-        "view_analytics", "manage_orders", "view_audit_logs"
+        "view_analytics", "manage_orders", "view_audit_logs", "stock_movements"
       ],
       pharmacist: [
         "create_supplies", "update_supplies",
@@ -138,13 +138,13 @@ export const updateUserRole = mutation({
         "create_categories", "update_categories", "delete_categories",
         "create_suppliers", "update_suppliers", "delete_suppliers",
         "manage_users", "view_analytics", "manage_orders",
-        "view_audit_logs", "system_settings"
+        "view_audit_logs", "system_settings", "stock_movements"
       ],
       manager: [
         "create_supplies", "update_supplies",
         "create_categories", "update_categories",
         "create_suppliers", "update_suppliers",
-        "view_analytics", "manage_orders", "view_audit_logs"
+        "view_analytics", "manage_orders", "view_audit_logs", "stock_movements"
       ],
       pharmacist: [
         "create_supplies", "update_supplies",

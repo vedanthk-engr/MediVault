@@ -73,3 +73,79 @@ export const createCategory = mutation({
     return categoryId;
   },
 });
+
+export const updateCategory = mutation({
+  args: {
+    categoryId: v.id("categories"),
+    name: v.string(),
+    description: v.string(),
+    color: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { user, userRole } = await getCurrentUser(ctx);
+    
+    if (!userRole || !['admin', 'manager'].includes(userRole.role)) {
+      throw new Error("Insufficient permissions to update categories");
+    }
+
+    const { categoryId, ...updates } = args;
+    const existingCategory = await ctx.db.get(categoryId);
+    
+    if (!existingCategory) {
+      throw new Error("Category not found");
+    }
+
+    await ctx.db.patch(categoryId, updates);
+
+    await ctx.db.insert("auditLogs", {
+      userId: user._id,
+      action: "UPDATE_CATEGORY",
+      entityType: "category",
+      entityId: categoryId,
+      oldValues: JSON.stringify(existingCategory),
+      newValues: JSON.stringify(updates),
+    });
+
+    return categoryId;
+  },
+});
+
+export const deleteCategory = mutation({
+  args: {
+    categoryId: v.id("categories"),
+  },
+  handler: async (ctx, args) => {
+    const { user, userRole } = await getCurrentUser(ctx);
+    
+    if (!userRole || !['admin', 'manager'].includes(userRole.role)) {
+      throw new Error("Insufficient permissions to delete categories");
+    }
+
+    const category = await ctx.db.get(args.categoryId);
+    if (!category) {
+      throw new Error("Category not found");
+    }
+
+    // Check if category has any supplies
+    const supplies = await ctx.db
+      .query("supplies")
+      .withIndex("by_category", (q) => q.eq("categoryId", args.categoryId))
+      .collect();
+
+    if (supplies.length > 0) {
+      throw new Error("Cannot delete category with existing supplies");
+    }
+
+    await ctx.db.delete(args.categoryId);
+
+    await ctx.db.insert("auditLogs", {
+      userId: user._id,
+      action: "DELETE_CATEGORY",
+      entityType: "category",
+      entityId: args.categoryId,
+      oldValues: JSON.stringify(category),
+    });
+
+    return args.categoryId;
+  },
+});

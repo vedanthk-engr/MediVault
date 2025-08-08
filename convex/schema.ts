@@ -82,7 +82,7 @@ const applicationTables = {
     previousQuantity: v.number(),
     newQuantity: v.number(),
     reason: v.string(),
-    performedBy: v.id("users"),
+    performedBy: v.union(v.id("users"), v.literal("system")),
     location: v.string(),
     notes: v.optional(v.string()),
     orderId: v.optional(v.id("purchaseOrders")),

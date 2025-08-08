@@ -299,8 +299,8 @@ export const recordStockMovement = mutation({
   handler: async (ctx, args) => {
     const { user, userRole } = await getCurrentUser(ctx);
     
-    if (!userRole) {
-      throw new Error("User role not found");
+    if (!userRole || (!userRole.permissions.includes("stock_movements") && !['admin', 'manager'].includes(userRole.role))) {
+      throw new Error("Insufficient permissions for stock movements");
     }
 
     const supply = await ctx.db.get(args.supplyId);

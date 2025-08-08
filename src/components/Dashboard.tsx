@@ -5,6 +5,7 @@ import { AlertsView } from "./AlertsView";
 import { AnalyticsView } from "./AnalyticsView";
 import { ExpiringItemsView } from "./ExpiringItemsView";
 import { SuppliersView } from "./SuppliersView";
+import { CategoriesView } from "./CategoriesView";
 import { DashboardOverview } from "./DashboardOverview";
 import { PredictiveAnalytics } from "./PredictiveAnalytics";
 import { BarcodeScanner } from "./BarcodeScanner";
@@ -42,10 +43,8 @@ export function Dashboard({ activeView }: DashboardProps) {
         return <ExpiringItemsView />;
       case 'suppliers':
         return <SuppliersView />;
-      case 'orders':
-        return <div className="text-center py-12 text-gray-500">Purchase Orders view coming soon...</div>;
-      case 'settings':
-        return <div className="text-center py-12 text-gray-500">Settings view coming soon...</div>;
+      case 'categories':
+        return <CategoriesView />;
       default:
         return <DashboardOverview />;
     }

@@ -35,7 +35,7 @@ export const addInventoryBatch = mutation({
   handler: async (ctx, args) => {
     const { user, userRole } = await getCurrentUser(ctx);
     
-    if (!userRole || !userRole.permissions.includes("stock_movements")) {
+    if (!userRole || (!userRole.permissions.includes("stock_movements") && !['admin', 'manager'].includes(userRole.role))) {
       throw new Error("Insufficient permissions to add inventory");
     }
 
@@ -126,7 +126,7 @@ export const scanBarcode = mutation({
     }
 
     // For receive/dispense actions, check permissions
-    if (!userRole.permissions.includes("stock_movements")) {
+    if (!userRole.permissions.includes("stock_movements") && !['admin', 'manager'].includes(userRole.role)) {
       throw new Error("Insufficient permissions for stock movements");
     }
 

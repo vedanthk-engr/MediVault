@@ -3,13 +3,12 @@ import {
   Package, 
   AlertTriangle, 
   TrendingUp, 
-  ShoppingCart, 
   Users, 
-  Settings,
   Calendar,
   BarChart3,
   Scan,
-  Brain
+  Brain,
+  Tag
 } from "lucide-react";
 
 interface SidebarProps {
@@ -24,10 +23,9 @@ const menuItems = [
   { id: 'alerts', label: 'Alerts', icon: AlertTriangle },
   { id: 'analytics', label: 'Analytics', icon: BarChart3 },
   { id: 'predictive', label: 'AI Insights', icon: Brain },
-  { id: 'orders', label: 'Purchase Orders', icon: ShoppingCart },
   { id: 'expiring', label: 'Expiring Items', icon: Calendar },
   { id: 'suppliers', label: 'Suppliers', icon: Users },
-  { id: 'settings', label: 'Settings', icon: Settings },
+  { id: 'categories', label: 'Categories', icon: Tag },
 ];
 
 export function Sidebar({ activeView, onViewChange }: SidebarProps) {

@@ -6,12 +6,11 @@ import {
   Package, 
   AlertTriangle, 
   BarChart3, 
-  ShoppingCart, 
   Calendar,
   Users, 
-  Settings,
   Scan,
-  Brain
+  Brain,
+  Tag
 } from "lucide-react";
 
 interface MobileMenuProps {
@@ -26,10 +25,9 @@ const menuItems = [
   { id: 'alerts', label: 'Alerts', icon: AlertTriangle },
   { id: 'analytics', label: 'Analytics', icon: BarChart3 },
   { id: 'predictive', label: 'AI Insights', icon: Brain },
-  { id: 'orders', label: 'Orders', icon: ShoppingCart },
   { id: 'expiring', label: 'Expiring', icon: Calendar },
   { id: 'suppliers', label: 'Suppliers', icon: Users },
-  { id: 'settings', label: 'Settings', icon: Settings },
+  { id: 'categories', label: 'Categories', icon: Tag },
 ];
 
 export function MobileMenu({ activeView, onViewChange }: MobileMenuProps) {

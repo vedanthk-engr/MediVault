@@ -28,7 +28,6 @@ export const listSuppliers = query({
     
     const suppliers = await ctx.db.query("suppliers").collect();
     
-    // Get supply count and recent orders for each supplier
     const suppliersWithStats = await Promise.all(
       suppliers.map(async (supplier) => {
         const supplies = await ctx.db
@@ -43,7 +42,16 @@ export const listSuppliers = query({
           .take(5);
         
         return {
-          ...supplier,
+          _id: supplier._id,
+          name: supplier.name,
+          contactEmail: supplier.contactEmail,
+          contactPhone: supplier.contactPhone,
+          address: supplier.address,
+          performanceRating: supplier.performanceRating,
+          averageDeliveryTime: supplier.averageDeliveryTime,
+          isActive: supplier.isActive,
+
+          // Computed fields
           supplyCount: supplies.length,
           recentOrdersCount: recentOrders.length,
           lastOrderDate: recentOrders.length > 0 ? recentOrders[0]._creationTime : null,
